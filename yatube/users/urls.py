@@ -1,5 +1,10 @@
-from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView, PasswordResetDoneView,\
-  PasswordResetConfirmView, PasswordResetCompleteView, PasswordChangeView, PasswordChangeDoneView
+from django.contrib.auth.views import LoginView, LogoutView,\
+                                      PasswordResetView,\
+                                      PasswordResetDoneView,\
+                                      PasswordResetConfirmView,\
+                                      PasswordResetCompleteView,\
+                                      PasswordChangeView,\
+                                      PasswordChangeDoneView
 from django.urls import path
 
 from . import views
@@ -19,45 +24,46 @@ urlpatterns = [
         name='login'
     ),
     path(
-      'password_reset/', 
-      PasswordResetView.as_view(
-        template_name='users/password_reset_form.html'
+        'password_reset/',
+        PasswordResetView.as_view
+        (
+          template_name='users/password_reset_form.html'
         ),
-      name='reset_form'
+        name='reset_form'
     ),
     path(
-      'password_reset/done/', 
-      PasswordResetDoneView.as_view(
-        template_name='users/password_reset_done.html'
+        'password_reset/done/',
+        PasswordResetDoneView.as_view(
+          template_name='users/password_reset_done.html'
         ),
-      name='reset_done'
+        name='reset_done'
     ),
     path(
-      'reset/<uidb64>/<token>/', 
-      PasswordResetConfirmView.as_view(
-        template_name='users/password_reset_confirm.html'
+        'reset/<uidb64>/<token>/',
+        PasswordResetConfirmView.as_view(
+          template_name='users/password_reset_confirm.html'
         ),
-      name='reset_confirm'
+        name='reset_confirm'
     ),
     path(
-      'reset/done/', 
-      PasswordResetCompleteView.as_view(
-        template_name='users/password_reset_complete.html'
+        'reset/done/',
+        PasswordResetCompleteView.as_view(
+          template_name='users/password_reset_complete.html'
         ),
-      name='reset_complete'
+        name='reset_complete'
     ),
     path(
-      'password_change/', 
-      PasswordChangeView.as_view(
-        template_name='users/password_change_form.html'
+        'password_change/',
+        PasswordChangeView.as_view(
+          template_name='users/password_change_form.html'
         ),
-      name='change_form'
+        name='change_form'
     ),
     path(
-      'password_change/done/', 
-      PasswordChangeDoneView.as_view(
-        template_name='users/password_change_done.html'
+        'password_change/done/',
+        PasswordChangeDoneView.as_view(
+          template_name='users/password_change_done.html'
         ),
-      name='change_done'
+        name='change_done'
     ),
 ]

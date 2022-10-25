@@ -6,7 +6,6 @@ from django.shortcuts import redirect
 from .models import Post, Group, User
 
 
-
 AMOUNT_POSTS_ON_PAGE = 2
 
 
@@ -50,7 +49,7 @@ def profile(request, username):
     page_obj = paginator.get_page(page_number)
     context = {
         'user': user,
-        'page_obj': page_obj, 
+        'page_obj': page_obj,
         'post_count': post_count,
         'users_post': users_post,
     }
@@ -79,13 +78,17 @@ def post_edit(request, post_id):
         return redirect('posts:post_detail', post_id)
     else:
         if request.method == 'POST':
-            form = PostForm(request.POST  or None)
+            form = PostForm(request.POST or None)
             if form.is_valid():
                 post.text = form.cleaned_data['text']
                 post.group = form.cleaned_data['group']
                 post.save()
                 return redirect('posts:profile', user)
-            return render(request, template, context={'form': form, 'post': post})
+            return render(
+                request,
+                template,
+                context={'form': form, 'post': post}
+            )
         form = PostForm()
         context = {
             'user': user,
@@ -116,6 +119,3 @@ def post_create(request):
         'groups': Group.objects.all(),
     }
     return render(request, template, context)
-    
-
-
