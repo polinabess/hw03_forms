@@ -1,10 +1,10 @@
-from django.contrib.auth.views import LoginView, LogoutView,\
-                                      PasswordResetView,\
-                                      PasswordResetDoneView,\
-                                      PasswordResetConfirmView,\
-                                      PasswordResetCompleteView,\
-                                      PasswordChangeView,\
-                                      PasswordChangeDoneView
+from django.contrib.auth.views import LoginView as LInV, LogoutView as LOutV
+from django.contrib.auth.views import PasswordResetView as PswResV
+from django.contrib.auth.views import PasswordResetDoneView as PswResDoneV
+from django.contrib.auth.views import PasswordResetConfirmView as PswResConfV
+from django.contrib.auth.views import PasswordResetCompleteView as PswResCplV
+from django.contrib.auth.views import PasswordChangeView as PswChdV
+from django.contrib.auth.views import PasswordChangeDoneView as PswChdDoneV
 from django.urls import path
 
 from . import views
@@ -15,55 +15,42 @@ urlpatterns = [
     path('signup/', views.SignUp.as_view(), name='signup'),
     path(
         'logout/',
-        LogoutView.as_view(template_name='users/logged_out.html'),
+        LOutV.as_view(template_name='users/logged_out.html'),
         name='logout'
     ),
     path(
         'login/',
-        LoginView.as_view(template_name='users/login.html'),
+        LInV.as_view(template_name='users/login.html'),
         name='login'
     ),
     path(
         'password_reset/',
-        PasswordResetView.as_view
-        (
-          template_name='users/password_reset_form.html'
-        ),
+        PswResV.as_view(template_name='users/password_reset_form.html'),
         name='reset_form'
     ),
     path(
         'password_reset/done/',
-        PasswordResetDoneView.as_view(
-          template_name='users/password_reset_done.html'
-        ),
+        PswResDoneV.as_view(template_name='users/password_reset_done.html'),
         name='reset_done'
     ),
     path(
         'reset/<uidb64>/<token>/',
-        PasswordResetConfirmView.as_view(
-          template_name='users/password_reset_confirm.html'
-        ),
+        PswResConfV.as_view(template_name='users/password_reset_confirm.html'),
         name='reset_confirm'
     ),
     path(
         'reset/done/',
-        PasswordResetCompleteView.as_view(
-          template_name='users/password_reset_complete.html'
-        ),
+        PswResCplV.as_view(template_name='users/password_reset_complete.html'),
         name='reset_complete'
     ),
     path(
         'password_change/',
-        PasswordChangeView.as_view(
-          template_name='users/password_change_form.html'
-        ),
+        PswChdV.as_view(template_name='users/password_change_form.html'),
         name='change_form'
     ),
     path(
         'password_change/done/',
-        PasswordChangeDoneView.as_view(
-          template_name='users/password_change_done.html'
-        ),
+        PswChdDoneV.as_view(template_name='users/password_change_done.html'),
         name='change_done'
     ),
 ]
