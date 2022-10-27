@@ -9,7 +9,6 @@ from .models import Post, Group, User
 AMOUNT_POSTS_ON_PAGE = 2
 
 
-@login_required
 def index(request):
     post_list = Post.objects.all()
     # В словаре context отправляем информацию в шаблон
@@ -24,7 +23,6 @@ def index(request):
     return render(request, 'posts/index.html', context)
 
 
-@login_required
 def group_posts(request, slug):
     group = get_object_or_404(Group, slug=slug)
     post_list = group.posts_of_group.all()
@@ -39,7 +37,6 @@ def group_posts(request, slug):
     return render(request, 'posts/group_list.html', context)
 
 
-@login_required
 def profile(request, username):
     user = User.objects.get(username=username)
     users_post = Post.objects.filter(author=user)
@@ -56,7 +53,6 @@ def profile(request, username):
     return render(request, 'posts/profile.html', context)
 
 
-@login_required
 def post_detail(request, post_id):
     # Здесь код запроса к модели и создание словаря контекста
     post = get_object_or_404(Post, id=post_id)
