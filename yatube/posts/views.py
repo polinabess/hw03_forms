@@ -38,14 +38,14 @@ def group_posts(request, slug):
 
 
 def profile(request, username):
-    user = User.objects.get(username=username)
-    users_post = Post.objects.filter(author=user)
+    author = User.objects.get(username=username)
+    users_post = Post.objects.filter(author=author)
     post_count = users_post.count()
     paginator = Paginator(users_post, AMOUNT_POSTS_ON_PAGE)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {
-        'user': user,
+        'context': author,
         'page_obj': page_obj,
         'post_count': post_count,
         'users_post': users_post,
@@ -68,9 +68,9 @@ def post_detail(request, post_id):
 def post_edit(request, post_id):
     template = 'posts/create_post.html'
     post = get_object_or_404(Post, id=post_id)
-    user = request.user
+    author = request.user
     is_edit = True
-    if user != post.author:
+    if author != post.author:
         return redirect('posts:post_detail', post_id)
     else:
         if request.method == 'POST':
@@ -79,7 +79,7 @@ def post_edit(request, post_id):
                 post.text = form.cleaned_data['text']
                 post.group = form.cleaned_data['group']
                 post.save()
-                return redirect('posts:profile', user)
+                return redirect('posts:post_detail', post_id)
             return render(
                 request,
                 template,
@@ -87,7 +87,7 @@ def post_edit(request, post_id):
             )
         form = PostForm()
         context = {
-            'user': user,
+            'context': author,
             'is_edit': is_edit,
             'form': form,
             'post': post,
@@ -99,15 +99,15 @@ def post_edit(request, post_id):
 @login_required
 def post_create(request):
     template = 'posts/create_post.html'
-    user = request.user
+    author = request.user
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
             post = form.save(commit=False)
-            post.author = user
+            post.author = author
             post.group = form.cleaned_data['group']
             post.save()
-            return redirect('posts:profile', user)
+            return redirect('posts:profile', author)
         return render(request, template, context={'form': form})
     form = PostForm()
     context = {
