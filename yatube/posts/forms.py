@@ -6,11 +6,15 @@ class PostForm(forms.ModelForm):
     class Meta():
         model = Post
         fields = ('text', 'group')
+        help_texts = {
+            'text': 'Тут напишите ваш тест поста',
+            'group': 'Выберете группу'
+        }
 
-    def clean_text(self):
-        data = self.cleaned_data['text']
-        if data == '':
-            raise forms.ValidationError(
-                'Текстовое поле поста должно быть обязательно заполнено'
-            )
-        return data
+    # def clean_text(self):
+    #     data = self.cleaned_data['text']
+    #     if data == '':
+    #         raise forms.ValidationError(
+    #             'Текстовое поле поста должно быть обязательно заполнено'
+    #         )
+    #     return data

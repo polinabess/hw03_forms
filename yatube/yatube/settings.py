@@ -25,7 +25,12 @@ SECRET_KEY = '$vs!6#_qxvfw)=!g=e364(2bb1)fmz2cwjyy@6+(wsgy=l@p35'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    '[::1]',
+    'testserver',
+]
 
 LOGIN_URL = 'users:login'
 LOGIN_REDIRECT_URL = 'posts:index'
