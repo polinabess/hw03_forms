@@ -3,15 +3,12 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from .models import Post, Group, User
-from . import utils
-
-
-AMOUNT_POSTS_ON_PAGE = 10
+from .utils import pagination
 
 
 def index(request):
     post_list = Post.objects.all()
-    page_obj = utils.pagination(request, post_list)
+    page_obj = pagination(request, post_list)
     context = {
         'page_obj': page_obj,
     }
@@ -21,7 +18,7 @@ def index(request):
 def group_posts(request, slug):
     group = get_object_or_404(Group, slug=slug)
     post_list = group.posts_of_group.all()
-    page_obj = utils.pagination(request, post_list)
+    page_obj = pagination(request, post_list)
     context = {
         'group': group,
         'page_obj': page_obj,
@@ -33,7 +30,7 @@ def profile(request, username):
     author = get_object_or_404(User, username=username)
     users_post = author.author_of_posts.all()
     post_count = users_post.count()
-    page_obj = utils.pagination(request, users_post)
+    page_obj = pagination(request, users_post)
     context = {
         'context': author,
         'page_obj': page_obj,
@@ -63,11 +60,9 @@ def post_edit(request, post_id):
     if author != post.author:
         return redirect('posts:post_detail', post_id)
     if request.method == 'POST':
-        form = PostForm(request.POST or None)
+        form = PostForm(request.POST, instance=post)
         if form.is_valid():
-            post = form.save(commit=False)
-            post.author = author
-            post.save()
+            form.save()
             return redirect('posts:post_detail', post_id)
         return render(
             request,
